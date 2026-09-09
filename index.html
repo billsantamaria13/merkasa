@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MERKASA — Tu mercado, más cerca de ti</title>
+  <meta name="description" content="Mercados listos por $99.900. Productos frescos directo del campo a tu hogar. Domicilio a toda la ciudad.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      color: #2d2d2d;
+      background: #f9fdf5;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --green-dark: #1a6b2a;
+      --green-mid: #2e8b3e;
+      --green-light: #4caf50;
+      --green-pale: #e8f5e9;
+      --green-bg: #f1f8e9;
+      --yellow: #fbc02d;
+      --yellow-light: #fff9c4;
+      --red: #e53935;
+      --wood: #6d4c2f;
+      --wood-light: #a07850;
+      --white: #ffffff;
+      --shadow: 0 4px 24px rgba(0,0,0,0.10);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.15);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--green-pale);
+      padding: 0 2rem;
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: var(--shadow); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+    .nav-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      letter-spacing: 1px;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-logo .leaf {
+      color: var(--green-light);
+      font-size: 1.2rem;
+    }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--green-dark);
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--green-light);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--green-mid) !important;
+      color: var(--white) !important;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      transition: background 0.3s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--green-dark) !important; transform: scale(1.05); }
+    .nav-cta::after { display: none !important; }
+
+    /* Mobile menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 8px;
+    }
+    .hamburger span {
+      width: 28px; height: 3px;
+      background: var(--green-dark);
+      border-radius: 3px;
+      transition: 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 30%, #a5d6a7 60%, #81c784 100%);
+      padding-top: 70px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(76,175,80,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(251,192,45,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-text { animation: slideInLeft 1s ease; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--green-light);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    .hero-text h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    .hero-text h1 .brand {
+      display: block;
+      font-size: 5rem;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: #3e6d44;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .hero-slogan {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      color: var(--wood);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Ciudadelas Banner */
+    .ciudadelas-banner {
+      background: linear-gradient(135deg, var(--white) 0%, var(--yellow-light) 100%);
+      border: 3px solid var(--yellow);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(251,192,45,0.25);
+      animation: fadeInUp 1.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .ciudadelas-banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--green-light), var(--yellow), var(--green-light));
+    }
+    .ciudadelas-header {
+      font-size: 1rem;
+      color: var(--green-dark);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+    .ciudadelas-header span {
+      font-size: 1.2rem;
+    }
+    .ciudadelas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.6rem;
+    }
+    .ciudadela-chip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: var(--white);
+      padding: 8px 12px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      border: 2px solid var(--green-pale);
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .ciudadela-chip:hover {
+      border-color: var(--green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76,175,80,0.2);
+    }
+    .ciudadela-icon { font-size: 1rem; }
+    .hero-price-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem 2rem;
+      display: block;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero-price-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--green-light), var(--yellow), var(--green-light));
+    }
+    .hero-price-label {
+      font-size: 1.1rem;
+      color: var(--green-dark);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .hero-price {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+    }
+    .hero-price .currency { font-size: 2.2rem; vertical-align: top; }
+    .hero-price-sub {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(46,139,62,0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(46,139,62,0.5);
+    }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--green-dark);
+      border: 2px solid var(--green-mid);
+    }
+    .btn-secondary:hover {
+      background: var(--green-pale);
+      transform: translateY(-2px);
+    }
+    .hero-visual {
+      animation: slideInRight 1s ease;
+      position: relative;
+    }
+    .hero-img-wrapper {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-img-wrapper img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+    }
+    .hero-float-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      box-shadow: var(--shadow);
+      font-weight: 700;
+      font-size: 0.85rem;
+      animation: float 4s ease-in-out infinite;
+    }
+    .float-delivery {
+      top: 20px; right: -20px;
+      color: var(--green-dark);
+    }
+    .float-fresh {
+      bottom: 40px; left: -20px;
+      color: var(--wood);
+    }
+    .float-delivery .emoji, .float-fresh .emoji {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ===== SECTION COMMON ===== */
+    section { padding: 5rem 2rem; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      display: inline-block;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.5rem;
+      color: var(--green-dark);
+      margin-bottom: 0.75rem;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== BENEFITS ===== */
+    .benefits { background: var(--white); }
+    .benefits-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .benefit-card {
+      background: var(--green-bg);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 2px solid transparent;
+    }
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--green-light);
+    }
+    .benefit-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    }
+    .benefit-card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      color: var(--green-dark);
+      margin-bottom: 0.75rem;
+    }
+    .benefit-card p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ===== PRODUCTS / LIST ===== */
+    .products {
+      background: linear-gradient(180deg, var(--green-bg) 0%, var(--white) 100%);
+    }
+    .products-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Photo gallery row */
+    .products-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 3rem;
+    }
+    .gallery-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      height: 220px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .gallery-item .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: var(--white);
+      padding: 1.2rem 1rem 0.8rem;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* Product list: single unified card */
+    .products-layout {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .product-list-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--green-mid);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-list-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .product-list-card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      color: var(--green-dark);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid var(--green-pale);
+    }
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.4rem 2rem;
+    }
+    .product-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 0;
+      font-size: 0.9rem;
+      border-bottom: 1px dashed #e8e8e8;
+    }
+    .product-list li:last-child { border-bottom: none; }
+    .product-list .check {
+      width: 22px; height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .product-list .qty {
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+
+    /* Extra info cards below product lists */
+    .products-extras {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .extra-card {
+      padding: 1.5rem;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .extra-card:hover { transform: translateY(-3px); }
+    .extra-card .extra-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+    .extra-card h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+    .extra-card p {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .extra-aromaticas { background: var(--yellow-light); }
+    .extra-aromaticas h4 { color: var(--wood); }
+    .extra-local { background: var(--green-pale); }
+    .extra-local h4 { color: var(--green-dark); }
+    .extra-ciudadelas { background: #fff3e0; }
+    .extra-ciudadelas h4 { color: #e65100; }
+
+    /* ===== STEPS (How it works) ===== */
+    .steps-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .step-card {
+      background: var(--green-bg);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      border: 2px solid transparent;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .step-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--green-light);
+    }
+    .step-number {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-light), var(--green-dark));
+      color: var(--white);
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    }
+    .step-icon-big {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+    .step-card h3 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.3rem;
+      color: var(--green-dark);
+      margin-bottom: 0.75rem;
+    }
+    .step-card p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 50%, #43a047 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      font-size: 1.15rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    .cta-section .btn-cta {
+      background: var(--yellow);
+      color: var(--green-dark);
+      font-size: 1.1rem;
+      padding: 16px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .cta-section .btn-cta:hover {
+      background: #f9a825;
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+    }
+    .cta-section .price-highlight {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--yellow);
+      display: block;
+      margin: 0.5rem 0;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials {
+      background: var(--green-bg);
+    }
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .testimonial-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s;
+    }
+    .testimonial-card:hover { transform: translateY(-4px); }
+    .stars { color: var(--yellow); font-size: 1.2rem; margin-bottom: 1rem; }
+    .testimonial-card p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 45px; height: 45px;
+      border-radius: 50%;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .testimonial-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--green-dark);
+    }
+    .testimonial-role {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a3a1c;
+      color: rgba(255,255,255,0.8);
+      padding: 3rem 2rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+    .footer-brand .footer-logo {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+    .footer-brand p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+    .footer-col h4 {
+      font-family: 'Fredoka', sans-serif;
+      color: var(--white);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    .footer-col ul { display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .footer-col a:hover { opacity: 1; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      opacity: 0.6;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .footer-social a {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: background 0.3s;
+    }
+    .footer-social a:hover { background: var(--green-mid); }
+
+    /* ===== WHATSAPP FLOAT ===== */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999;
+      width: 65px; height: 65px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      animation: pulse 2s infinite;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 968px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+      .hero-text h1 { font-size: 2.5rem; }
+      .hero-text h1 .brand { font-size: 3.5rem; }
+      .hero-price { font-size: 2.8rem; }
+      .hero-buttons { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-img-wrapper img { height: 350px; }
+      .hero-float-card { display: none; }
+      .benefits-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .ciudadelas-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-gallery { grid-template-columns: 1fr; max-width: 400px; }
+      .product-list { grid-template-columns: 1fr; }
+      .products-layout { max-width: 100%; }
+      .products-extras { grid-template-columns: 1fr; max-width: 400px; margin: 2rem auto 0; }
+      .steps-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
+      .footer-inner { grid-template-columns: 1fr; text-align: center; }
+      .footer-social { justify-content: center; }
+      .nav-links { 
+        display: none;
+        position: absolute;
+        top: 70px; left: 0; right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        box-shadow: var(--shadow);
+      }
+      .nav-links.active { display: flex; }
+      .hamburger { display: flex; }
+      .section-header h2 { font-size: 2rem; }
+      .cta-section h2 { font-size: 2rem; }
+      .cta-section .price-highlight { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 { font-size: 2rem; }
+      .hero-text h1 .brand { font-size: 2.8rem; }
+      .hero-price { font-size: 2.2rem; }
+      section { padding: 3rem 1rem; }
+      .product-list-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">🌿 MERK<span>A</span>SA</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#contenido">Contenido</a>
+        <a href="#testimonios">Opiniones</a>
+        <a href="#pedir" class="nav-cta">🛒 Pedir Ahora</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Productos frescos del campo a tu hogar
+        </div>
+        <h1>
+          <span class="brand">MERKASA</span>
+          Tu mercado, más cerca de ti
+        </h1>
+        <p class="hero-subtitle">Frescura y calidad en la puerta de tu casa 🏠</p>
+        <p class="hero-slogan">"Comer bien también es vivir mejor ❤️"</p>
+        
+        <!-- CIUDADELAS BANNER -->
+        <div class="ciudadelas-banner">
+          <div class="ciudadelas-header">
+            <span>📍</span> Llevamos tu mercado a las <strong>4 Ciudadelas de Mosquera</strong>
+          </div>
+          <div class="ciudadelas-grid">
+            <div class="ciudadela-chip">
+              <span class="ciudadela-icon">🏘️</span>
+              <span>Novaterra</span>
+            </div>
+            <div class="ciudadela-chip">
+              <span class="ciudadela-icon">🏘️</span>
+              <span>Alcalá</span>
+            </div>
+            <div class="ciudadela-chip">
+              <span class="ciudadela-icon">🏘️</span>
+              <span>Soles</span>
+            </div>
+            <div class="ciudadela-chip">
+              <span class="ciudadela-icon">🏘️</span>
+              <span>Belarí</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-price-box">
+          <div class="hero-price-label">Mercados listos por</div>
+          <div class="hero-price"><span class="currency">$</span>99.900</div>
+          <div class="hero-price-sub">Domicilio en Mosquera 🚚</div>
+        </div>
+        <div class="hero-buttons">
+          <a href="#pedir" class="btn btn-primary">🛒 Pedir mi Mercado</a>
+          <a href="#contenido" class="btn btn-secondary">📋 Ver Contenido</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80" 
+               alt="Canasta de frutas y verduras frescas" 
+               loading="eager">
+        </div>
+        <div class="hero-float-card float-delivery">
+          <span class="emoji">🚚</span>
+          Domicilio GRATIS
+        </div>
+        <div class="hero-float-card float-fresh" style="animation-delay: -2s;">
+          <span class="emoji">🌱</span>
+          100% Fresco
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefits" id="beneficios">
+    <div class="section-header animate-on-scroll">
+      <span class="section-tag">¿Por qué elegirnos?</span>
+      <h2>Todo lo que necesitas en un solo mercado ✅</h2>
+      <p>Más frutas, más verduras, más bienestar para tu familia</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card animate-on-scroll">
+        <div class="benefit-icon">🏠</div>
+        <h3>Recíbelo en casa</h3>
+        <p>Tu mercado fresco llega directamente a la puerta de tu casa. Sin filas, sin estrés, sin cargar bolsas pesadas.</p>
+      </div>
+      <div class="benefit-card animate-on-scroll">
+        <div class="benefit-icon">🥬</div>
+        <h3>Mercado fresco y seleccionado</h3>
+        <p>Cada producto es cuidadosamente seleccionado para garantizar la mejor calidad y frescura del campo.</p>
+      </div>
+      <div class="benefit-card animate-on-scroll">
+        <div class="benefit-icon">⏰</div>
+        <h3>Ahorra tiempo</h3>
+        <p>Olvídate de las largas jornadas de mercado. Con un solo clic tienes todo lo que necesita tu familia.</p>
+      </div>
+    </div>
+
+    <!-- How it works: 3 steps integrated below benefits -->
+    <div class="section-header animate-on-scroll" style="margin-top: 4rem;">
+      <span class="section-tag">🚀 Súper fácil</span>
+      <h2>¿Cómo funciona?</h2>
+      <p>Recibir tu mercado fresco es muy sencillo</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card animate-on-scroll">
+        <div class="step-number">1</div>
+        <div class="step-icon-big">📱</div>
+        <h3>Haz tu pedido</h3>
+        <p>Escríbenos por WhatsApp al <strong>350 297 1737</strong> o a través de nuestras redes sociales. ¡Es muy fácil!</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-number">2</div>
+        <div class="step-icon-big">🥕</div>
+        <h3>Seleccionamos lo mejor</h3>
+        <p>Elegimos los productos más frescos del día para tu canasta. Todo cuidadosamente empacado.</p>
+      </div>
+      <div class="step-card animate-on-scroll">
+        <div class="step-number">3</div>
+        <div class="step-icon-big">🚚</div>
+        <h3>Recíbelo en casa</h3>
+        <p>Tu mercado llega directo a la puerta de tu hogar en las ciudadelas de Mosquera. ¡Listo para cocinar!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS LIST -->
+  <section class="products" id="contenido">
+    <div class="products-container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-tag">📦 Contenido del mercado</span>
+        <h2>Mira todo lo que incluye</h2>
+        <p>Una canasta completa con frutas, verduras y aromáticas frescas</p>
+      </div>
+
+      <!-- Photo Gallery: solo verduras y frutas -->
+      <div class="products-gallery animate-on-scroll">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=600&q=80" alt="Verduras frescas" loading="lazy">
+          <div class="gallery-label">🥬 Verduras frescas del campo</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&q=80" alt="Frutas variadas" loading="lazy">
+          <div class="gallery-label">🍎 Frutas de temporada</div>
+        </div>
+      </div>
+
+      <!-- Lista unificada en un solo cuadro -->
+      <div class="products-layout">
+        <div class="product-list-card animate-on-scroll">
+          <h3>🛒 Tu mercado incluye</h3>
+          <ul class="product-list">
+            <li><span class="check">🍅</span> <span class="qty">2 libras</span> de tomate</li>
+            <li><span class="check">🥕</span> <span class="qty">2 libras</span> de zanahoria</li>
+            <li><span class="check">🧅</span> <span class="qty">2 libras</span> de cebolla cabezona</li>
+            <li><span class="check">🥔</span> <span class="qty">2 libras</span> de papa criolla</li>
+            <li><span class="check">🥔</span> <span class="qty">2 libras</span> de papa</li>
+            <li><span class="check">🍌</span> <span class="qty">4</span> plátanos verdes</li>
+            <li><span class="check">🍌</span> <span class="qty">4</span> plátanos amarillos</li>
+            <li><span class="check">🌽</span> <span class="qty">4</span> mazorcas</li>
+            <li><span class="check">🥑</span> <span class="qty">2</span> aguacates</li>
+            <li><span class="check">🥬</span> <span class="qty">1</span> lechuga</li>
+            <li><span class="check">🥦</span> <span class="qty">1</span> brócoli</li>
+            <li><span class="check">🥒</span> <span class="qty">2</span> zucchinis amarillos</li>
+            <li><span class="check">🥒</span> <span class="qty">2</span> pepinos cohombro</li>
+            <li><span class="check">🫑</span> <span class="qty">1</span> pimentón</li>
+            <li><span class="check">🍎</span> <span class="qty">6</span> manzanas rojas</li>
+            <li><span class="check">💛</span> <span class="qty">1 libra</span> de maracuyá</li>
+            <li><span class="check">🍊</span> <span class="qty">1 libra</span> de naranja</li>
+            <li><span class="check">🍌</span> <span class="qty">1 racimo</span> de banano</li>
+            <li><span class="check">🍐</span> <span class="qty">6</span> peras</li>
+            <li><span class="check">🫚</span> <span class="qty">1 libra</span> de arracacha</li>
+            <li><span class="check">🫛</span> <span class="qty">1 libra</span> de yuca</li>
+            <li><span class="check">🎃</span> <span class="qty">1 libra</span> de ahuyama</li>
+            <li><span class="check">🌿</span> <span class="qty">100 g</span> de cilantro</li>
+            <li><span class="check">🧅</span> <span class="qty">250 g</span> de cebolla larga</li>
+            <li><span class="check">🧄</span> <span class="qty">100 g</span> de ajo</li>
+            <li><span class="check">🌿</span> <span class="qty">1</span> aromática fresca 80 g</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Extra Info Cards -->
+      <div class="products-extras animate-on-scroll">
+        <div class="extra-card extra-aromaticas">
+          <div class="extra-emoji">🌿</div>
+          <h4>Aromáticas que dan vida a tus comidas</h4>
+          <p>Incluye aromática fresca seleccionada</p>
+        </div>
+        <div class="extra-card extra-local">
+          <div class="extra-emoji">💚</div>
+          <h4>Apoya el consumo local</h4>
+          <p>Productos directos del campo colombiano</p>
+        </div>
+        <div class="extra-card extra-ciudadelas">
+          <div class="extra-emoji">📍</div>
+          <h4>Delivery en las 4 Ciudadelas</h4>
+          <p>Novaterra · Alcalá · Soles · Belarí</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonios">
+    <div class="section-header animate-on-scroll">
+      <span class="section-tag">💬 Opiniones</span>
+      <h2>Lo que dicen nuestros clientes</h2>
+      <p>Familias de Mosquera que ya confían en MERKASA</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Desde que pedí mi primer mercado con MERKASA no volví al supermercado. Todo llega súper fresco y bien empacado. ¡Las frutas son espectaculares!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩</div>
+          <div>
+            <div class="testimonial-name">Carolina M.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Novaterra</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Con dos niños pequeños no tenía tiempo de ir al mercado. MERKASA me salvó la vida, llega todo a mi puerta y puedo dedicar ese tiempo a mi familia."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩</div>
+          <div>
+            <div class="testimonial-name">Laura V.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Alcalá</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"La relación precio-calidad es increíble. Por $99.900 me llega un mercado completo que me rinde toda la semana. Además, el plátano y la yuca siempre están perfectos."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👨</div>
+          <div>
+            <div class="testimonial-name">Andrés G.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Soles</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Me encanta apoyar el consumo local. Se nota que los productos vienen directo del campo, las verduras tienen un sabor que no se consigue en los supermercados."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩</div>
+          <div>
+            <div class="testimonial-name">Daniela R.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Belarí</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Lo pedí por primera vez y quedé sorprendido con la cantidad y calidad. Las mazorcas y los aguacates estaban en su punto exacto. Ya hice mi segundo pedido."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👨</div>
+          <div>
+            <div class="testimonial-name">Felipe T.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Novaterra</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Soy mamá soltera y MERKASA me facilita mucho la vida. Ya no tengo que cargar bolsas pesadas desde el centro. Llega todo organizado y a buen precio. ¡100% recomendado!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">👩</div>
+          <div>
+            <div class="testimonial-name">Patricia L.</div>
+            <div class="testimonial-role">Cliente · Ciudadela Alcalá</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="pedir">
+    <div class="cta-content animate-on-scroll">
+      <h2>¡Pide tu mercado ahora!</h2>
+      <p>Todo lo que necesitas en un solo mercado, directo del campo a tu hogar</p>
+      <span class="price-highlight">$99.900</span>
+      <p>Domicilio en las 4 Ciudadelas de Mosquera 🚚</p>
+      <a href="https://wa.me/573502971737?text=Hola!%20Quiero%20pedir%20mi%20mercado%20MERKASA%20%F0%9F%A5%A6%F0%9F%8D%8E" 
+         class="btn btn-cta" target="_blank" rel="noopener">
+        💬 Pedir por WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">🌿 MERKASA</div>
+        <p>Tu mercado, más cerca de ti. Productos frescos directo del campo a tu hogar. Más frutas, más verduras, más bienestar para tu familia. ❤️</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="WhatsApp">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Enlaces</h4>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#beneficios">Beneficios</a></li>
+          <li><a href="#contenido">Contenido</a></li>
+          <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/573502971737">📞 +57 350 297 1737</a></li>
+          <li><a href="#">📧 contacto@merkasa.com</a></li>
+          <li><a href="#">📍 Mosquera, Cundinamarca</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MERKASA — Tu mercado, más cerca de ti. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/573502971737?text=Hola!%20Quiero%20pedir%20mi%20mercado%20MERKASA" 
+     class="whatsapp-float" 
+     target="_blank" 
+     rel="noopener"
+     aria-label="Contactar por WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+    // Close menu on link click
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('active'));
+    });
+
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
